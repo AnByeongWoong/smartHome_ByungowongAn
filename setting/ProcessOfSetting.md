@@ -14,7 +14,7 @@ network={
     psk= "password of WIFI"
 }
 </code>
-<pre>
+</pre>
 6. After That put your SDcard in your RaspberryPi
 7. finally, you can connecn RaspberryPi.
 - ssh pi@"IP address of WIFI"
