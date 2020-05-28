@@ -16,7 +16,7 @@ class RIP
             pinMode(_outputPin, OUTPUT);
             digitalWrite(_outputPin, LOW);
         }
-        int get_check() const {return _check};
+        int get_check() const {return _check; }
         void ripRun()
         {
             if(digitalRead(this->_inputPin)==1){

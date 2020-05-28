@@ -1,4 +1,4 @@
-#include "control.h"
+#include "../include/control.h"
 
 void Control::start()
 {

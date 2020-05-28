@@ -10,7 +10,7 @@ void Hum::read_hum()
     uint8_t flag = HIGH ;
     uint8_t state = 0 ;
     float f ;
-    this->hum_data[0] = this->hum_data[1] = this->hum_data[2] = this->hum_data[3] this->hum_data[4] = 0;
+    this->hum_data[0] = this->hum_data[1] = this->hum_data[2] = this->hum_data[3] = this->hum_data[4] = 0;
 
     pinMode(this->_pin, OUTPUT);
     digitalWrite(this->_pin, LOW);
