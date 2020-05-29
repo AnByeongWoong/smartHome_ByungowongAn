@@ -23,7 +23,6 @@ void Server::init()
     this->start.start();
 
 }
-
 void Server::work()
 {
     while(1)
@@ -50,11 +49,16 @@ void Server::work()
         char* dynamic_alloc = new char(strlen(buff_rcv)+1);
         strcpy(dynamic_alloc, buff_rcv); 
 
-        this->start.decode(dynamic_alloc);
+        int key = this->start.decode(dynamic_alloc);
         
         delete dynamic_alloc;
-
-        sprintf(buff_snd, "%d : %s", strlen(buff_rcv),buff_rcv);
+        if(this->start.get_HumCheck()==1 && key == 2 ){
+            sprintf(buff_snd, "humidity = %d.%d %% Temperature = %d.%d *C \n", this->start.get_humiditySensor().get_hum_data(0),this->start.get_humiditySensor().get_hum_data(1),this->start.get_humiditySensor().get_hum_data(2),this->start.get_humiditySensor().get_hum_data(3));
+        }
+        else{
+            sprintf(buff_snd, "%d : %s", strlen(buff_rcv),buff_rcv);
+        }
+        
         write(client_socket, buff_snd, strlen(buff_snd)+1);
         close(client_socket);
         printf("socket is closed\n");

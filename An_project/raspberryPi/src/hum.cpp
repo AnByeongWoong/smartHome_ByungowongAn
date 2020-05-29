@@ -2,8 +2,9 @@
 
 #define MAXTIMINGS 83
 
-void Hum::read_hum()
+int Hum::read_hum()
 {
+    
     uint8_t laststate = HIGH ;
     uint8_t counter = 0 ;
     uint8_t j = 0, i ;
@@ -14,45 +15,50 @@ void Hum::read_hum()
 
     pinMode(this->_pin, OUTPUT);
     digitalWrite(this->_pin, LOW);
+    // delay(18);
     delay(18);
     digitalWrite(this->_pin, HIGH);
-    delayMicrosecondes(30);
+    delayMicroseconds(30);
+    //delay(30);
     pinMode(this->_pin, INPUT);
         
     for (i = 0; i < MAXTIMINGS; i++) {
         counter = 0 ;
 
-        while ( digitalRead(DHTPIN) == laststate) { 
+        while ( digitalRead(this->_pin) == laststate) { 
         
             counter++ ;
-            delayMicroseconds(1) ;
+            delayMicroseconds(1);
+            //delay(1);
 
             if (counter == 200) break ;
         }
 
-        laststate = digitalRead(DHTPIN) ;
+        laststate = digitalRead(this->_pin) ;
 
         if (counter == 200) break ; // if while breaked by timer, break for
 
         if ((i >= 4) && (i % 2 == 0)) {
 
-            this->_pin[j / 8] <<= 1 ;
+            this->hum_data[j / 8] <<= 1 ;
 
             if (counter > 20) 
-                this->_pin[j / 8] |= 1 ;
+                this->hum_data[j / 8] |= 1 ;
             j++ ;
         }
 
   }
 
-  if ((j >= 40) && (this->_pin[4] == ((this->_pin[0] + this->_pin[1] + this->_pin[2] + this->_pin[3]) & 0xff))) {
+  if ((j >= 40) && (this->hum_data[4] == ((this->hum_data[0] + this->hum_data[1] + this->hum_data[2] + this->hum_data[3]) & 0xff))) {
 
-    printf("humidity = %d.%d %% Temperature = %d.%d *C \n", dht11_dat[0], dht11_dat[1], dht11_dat[2], dht11_dat[3]) ;
-
+    printf("humidity = %d.%d %% Temperature = %d.%d *C \n", this->hum_data[0] , this->hum_data[1] , this->hum_data[2] , this->hum_data[3]) ;
+    return 1;
   }
 
   else {
       // error일 경우 한번 더 해주기 
       printf("Data get failed\n") ;
+      return 0;
   }
+
 }

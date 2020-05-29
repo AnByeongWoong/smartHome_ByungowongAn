@@ -23,7 +23,7 @@ class Motor
         }
         void motorTurnOn()
         {
-            for(int i=0; i<=512; i++)
+            for(int i=0; i<=128; i++)
             {
                 for(int step =0; step<8; step++)
                 {
@@ -40,7 +40,7 @@ class Motor
                         }
                         digitalWrite(_pin[pin], seq[step][pin]);
                     }
-                    delay(50);
+                    delay(10);
                 }
             }
         }
