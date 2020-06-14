@@ -21,6 +21,7 @@ class Control
         void decodeHum(char* order);
         int get_HumCheck(){return HumCheck; }
         Hum get_humiditySensor(){return _humiditySensor;}
+        RIP get_ripSensor(return _ripSensor;)
     private:
         LED _LEDItems[3];
         Motor _MotorItems[2];
