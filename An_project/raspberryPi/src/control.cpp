@@ -9,7 +9,8 @@ void Control::start()
     this->_LEDItems[2] = LED(29);
     this->_ripSensor = RIP(0,26);
     this->_humiditySensor = Hum(1);
-    this->_MotorItems[0] = Motor(22,23,24,25);
+    //this->_MotorItems[0] = Motor(22,23,24,25);
+    this->_DCMotorItems[0] = DCMotor(21,22);
 }
 
 int Control::decode(char* buff_rcv)
@@ -31,6 +32,11 @@ int Control::decode(char* buff_rcv)
         temp = strtok(NULL, " ");
         this->decodeMotor(order, atoi(temp));
     }
+    else if(strcmp(temp, "DCMotor")==0)
+    {
+        temp = strtok(NULL, " ");
+        this->decodeDCMotor(order, atoi(temp));
+    }
     else if(strcmp(temp, "Hum")==0)
     {
         this->decodeHum(order);
@@ -44,6 +50,20 @@ int Control::decode(char* buff_rcv)
 
     delete order;
     return 1;
+}
+
+void Control::decodeMotor(char* order, int num)
+{
+    if(strcmp(order, "on")==0)
+    {
+        this->_DCMotorItems[num-1].motorTurnOn();
+        //std::thread t(&Motor::motorTurnOn, &this->_MotorItems[num-1]);
+        
+    }
+    else if(strcmp(order, "off")==0)
+    {
+        this->_DCMotorItems[num-1].motorTurnOff();
+    }
 }
 
 void Control::decodeMotor(char* order, int num)
